@@ -80,17 +80,12 @@ export const loginUser = (user, history) => {
 
 export const logoutUser = (id, history) => {
   return dispatch => {
-    fetch(`${RAILS_API}/logout/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
-    }
-  }).then(res => res.json()).then(data => {
-    sessionStorage.clear()
-    dispatch({type: "LOGOUT_USER", payload: data})
-    history.push("/wp-jinook/wp-content/themes/bootstrap2wordpress/assets/etc/higher-lower-game")
-  })
+    fetch(`${RAILS_API}/logout/${id}`, {method: "DELETE"})
+    .then(res => res.json()).then(data => {
+      sessionStorage.clear()
+      dispatch({type: "LOGOUT_USER", payload: data})
+      history.push("/wp-jinook/wp-content/themes/bootstrap2wordpress/assets/etc/higher-lower-game")
+    })
   }
 }
 
