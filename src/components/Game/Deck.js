@@ -8,7 +8,7 @@ import GameButtons from './GameButtons'
 import './Deck.css'
 
 const RAILS_API = "https://higher-lower-api.herokuapp.com"
-const CARD_API = "https://deckofcardsapi.com/api/deck/"
+const CARD_API = "https://deckofcardsapi.com/api/deck"
 
 export class Deck extends Component {
   state ={
@@ -18,7 +18,7 @@ export class Deck extends Component {
   }
 
   async componentDidMount() {
-    const res = await axios.get(`${CARD_API}new/shuffle/`)
+    const res = await axios.get(`${CARD_API}/new/shuffle/`)
     this.setState({deck: res.data, drawn: [], remaining: res.data.remaining})
     this.handleButtonClick()
   }
@@ -71,7 +71,7 @@ export class Deck extends Component {
 
   handleButtonClick = async (decision) => {
     try {
-      const res = await axios.get(`${CARD_API}${this.state.deck.deck_id}/draw/?count=1`)
+      const res = await axios.get(`${CARD_API}/${this.state.deck.deck_id}/draw/?count=1`)
       const card = res.data.cards[0]
       const currentCardValue = this.getCardValue(card)
       const previousCardValue = this.state.remaining < 52 ? this.getCardValue(this.state.drawn[this.state.drawn.length - 1]) : undefined
@@ -91,6 +91,7 @@ export class Deck extends Component {
         this.setState(state => ({drawn: [...state.drawn, card], remaining: state.remaining - 1}))
       } else { // if error or all 52 cards drawn
         if (window.confirm("Congratularions!!! You've reached to the highest score.\nDo you want to play another game?")) {
+          this.persistGameResult(this.state.drawn.length - 1, sessionStorage.getItem("id"))
           this.componentDidMount()
           return
         }

@@ -29,15 +29,11 @@ const ScoresDisplay = (props) => {
             <TableCell align="center">SCORE (When tied, recent score gets higher rank.)</TableCell>
             <TableCell align="center">PLAYER</TableCell>
             <TableCell align="center">PLAYED_AT</TableCell>
-            {/* for live coding */}
-            {/* <TableCell align="center">Likes</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
           {props.games.map((game, i) => (
             <ScoreRow key={game.id} game={game} i={i} />
-            // for live coding
-            // <ScoreRow key={game.id} game={game} i={i} number={props.number} />
           ))}
         </TableBody>
       </Table>
